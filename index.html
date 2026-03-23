@@ -5,6 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>杭电自动化青协 | 青年志愿者协会</title>
 <meta name="description" content="杭州电子科技大学自动化学院（人工智能学院）青年志愿者协会 - 奉献·友爱·互助·进步">
+<meta property="og:type" content="website">
+<meta property="og:title" content="杭电自动化青协 | 青年志愿者协会">
+<meta property="og:description" content="杭州电子科技大学自动化学院青年志愿者协会 - 以青春之名，点亮志愿之光">
+<meta property="og:url" content="https://auto-volunteer.tech/">
+<meta property="og:image" content="https://auto-volunteer.tech/images/img_39.png">
+<meta property="og:site_name" content="杭电自动化青协">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="杭电自动化青协 | 青年志愿者协会">
+<meta name="twitter:description" content="杭州电子科技大学自动化学院青年志愿者协会">
+<meta name="twitter:image" content="https://auto-volunteer.tech/images/img_39.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='url(%23g)'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23E8584F'/%3E%3Cstop offset='100%25' stop-color='%23E8A838'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='50' y='68' text-anchor='middle' font-size='52' font-weight='900' font-family='serif' fill='white'%3E青%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='url(%23g)'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23E8584F'/%3E%3Cstop offset='100%25' stop-color='%23E8A838'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='50' y='68' text-anchor='middle' font-size='52' font-weight='900' font-family='serif' fill='white'%3E青%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -23,18 +35,10 @@
 
 <!-- HERO -->
 <section class="hero" id="hero">
-  <div class="hero-slider">
-    <div class="hero-slide active"><img src="images/img_39.png" alt="自动化青协大合照"></div>
-    <div class="hero-slide"><img src="images/img_62.png" alt="飞鸟夏令营"></div>
-    <div class="hero-slide"><img src="images/img_23.png" alt="海洋天堂合影"></div>
-    <div class="hero-slide"><img src="images/img_8.png" alt="东湖街道合影"></div>
-  </div>
-  <div class="hero-overlay"></div>
-  <div class="hero-dots">
-    <div class="hero-dot active" onclick="goSlide(0)"></div>
-    <div class="hero-dot" onclick="goSlide(1)"></div>
-    <div class="hero-dot" onclick="goSlide(2)"></div>
-    <div class="hero-dot" onclick="goSlide(3)"></div>
+  <div class="hero-bg">
+    <div class="hero-glow hero-glow1"></div>
+    <div class="hero-glow hero-glow2"></div>
+    <div class="hero-glow hero-glow3"></div>
   </div>
   <div class="hero-content">
     <div class="hero-badge">杭州电子科技大学 · 自动化学院</div>
@@ -165,7 +169,7 @@
       <form id="signupForm" onsubmit="submitForm(event)">
         <div class="form-row">
           <div class="form-group"><label>姓名<span class="req">*</span></label><input type="text" name="name" required placeholder="请输入真实姓名"></div>
-          <div class="form-group"><label>学号<span class="req">*</span></label><input type="text" name="studentId" required placeholder="请输入学号" pattern="\d{10,12}" title="请输入正确的学号格式"></div>
+          <div class="form-group"><label>学号<span class="req">*</span></label><input type="text" name="studentId" required placeholder="请输入学号" pattern="\d{8,10}" title="请输入8-10位学号"></div>
         </div>
         <div class="form-row">
           <div class="form-group"><label>学院/专业<span class="req">*</span></label><input type="text" name="college" required placeholder="如：自动化学院/智能科学与技术"></div>
@@ -218,11 +222,11 @@
   <div class="ftr-in">
     <div class="fg">
       <div class="fb"><a href="#" class="nav-logo" style="margin-bottom:6px"><div class="nav-logo-icon" style="width:34px;height:34px;font-size:.9rem">青</div><span style="font-family:var(--sf);font-weight:700;font-size:1rem;color:var(--lt)">杭电自动化青协</span></a><p>杭州电子科技大学自动化学院（人工智能学院）青年志愿者协会<br>奉献 · 友爱 · 互助 · 进步</p></div>
-      <div class="fcol"><h4>品牌项目</h4><a href="#">灵动翼行</a><a href="#">飞鸟夏令营</a><a href="#">筑梦前陈</a><a href="#">逐梦清溪</a><a href="#">护佑童心</a></div>
+      <div class="fcol"><h4>品牌项目</h4><a href="#projects">灵动翼行</a><a href="#projects">飞鸟夏令营</a><a href="#projects">筑梦前陈</a><a href="#projects">逐梦清溪</a><a href="#projects">护佑童心</a></div>
       <div class="fcol"><h4>快速链接</h4><a href="#about">关于我们</a><a href="#projects">品牌项目</a><a href="#data">数据成就</a><a href="#events">活动纪实</a><a href="#signup">书吧报名</a></div>
-      <div class="fcol"><h4>联系我们</h4><a href="#">官方公众号</a><a href="#">QQ答疑群</a><a href="#">抖音号</a><a href="#">视频号</a></div>
+      <div class="fcol"><h4>联系我们</h4><a href="https://auto-volunteer.tech">官方网站</a><a href="https://github.com/0allright/qingxie-website">GitHub</a><a href="#join">加入我们</a></div>
     </div>
-    <div class="fbt"><span>© 2025 杭电自动化青协 · 青年志愿者协会</span><span>浙ICP备XXXXXXXX号-1</span></div>
+    <div class="fbt"><span>© 2025-2026 杭电自动化青协 · 青年志愿者协会</span><span>浙ICP备XXXXXXXX号-1</span></div>
   </div>
 </footer>
 
@@ -230,7 +234,16 @@
 <button class="btt" id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <!-- ADMIN PANEL -->
-<button class="admin-toggle" onclick="toggleAdmin()" title="管理后台">📊</button>
+<button class="admin-toggle" onclick="showAdminLogin()" title="管理后台">📊</button>
+<div class="admin-login" id="adminLogin">
+  <div class="admin-login-card">
+    <h3>📊 管理后台</h3>
+    <p>请输入管理密码</p>
+    <input type="password" id="adminPwd" placeholder="请输入密码" onkeydown="if(event.key==='Enter')verifyAdmin()">
+    <button class="btn btn-p" style="width:100%;justify-content:center" onclick="verifyAdmin()">验证</button>
+    <button class="admin-login-close" onclick="closeAdminLogin()">取消</button>
+  </div>
+</div>
 <div class="admin-overlay" id="adminOverlay" onclick="toggleAdmin()"></div>
 <div class="admin-panel" id="adminPanel">
   <div class="admin-header"><h3>📊 报名管理</h3><button onclick="toggleAdmin()" style="font-size:1.2rem;color:var(--t2)">✕</button></div>

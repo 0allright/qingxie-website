@@ -1,5 +1,52 @@
 /* ===== 杭电自动化青协 - 交互脚本 ===== */
 
+// === 配置 ===
+const GSHEET_URL = 'https://script.google.com/macros/s/AKfycbwUSfiVzdLoLNdeffZE4gpvXati91Wl-PTUn8aJFWOHU3452dD70Qngq_0NW6YRRTqCpg/exec'; // 粘贴你的 Google Apps Script URL，留空则仅使用 localStorage
+const ADMIN_HASH = 'fc59eade3d18460bf7648ed22adf11d1a874e6422ad6ebbe111f8f8db9e92669'; // 管理密码 SHA-256
+
+// === Admin Auth ===
+function showAdminLogin() {
+  if (sessionStorage.getItem('qx_admin')) { toggleAdmin(); return; }
+  document.getElementById('adminLogin').style.display = 'flex';
+  document.getElementById('adminPwd').focus();
+}
+function closeAdminLogin() {
+  document.getElementById('adminLogin').style.display = 'none';
+  document.getElementById('adminPwd').value = '';
+  document.getElementById('adminPwd').style.borderColor = '';
+  document.getElementById('adminPwd').placeholder = '请输入密码';
+}
+async function verifyAdmin() {
+  const pwd = document.getElementById('adminPwd').value;
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pwd));
+  const hash = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  if (hash === ADMIN_HASH) {
+    sessionStorage.setItem('qx_admin', '1');
+    closeAdminLogin();
+    toggleAdmin();
+  } else {
+    document.getElementById('adminPwd').style.borderColor = 'var(--p)';
+    document.getElementById('adminPwd').value = '';
+    document.getElementById('adminPwd').placeholder = '密码错误，请重试';
+  }
+}
+
+// === Google Sheets Backend ===
+async function postToSheet(data) {
+  if (!GSHEET_URL) return false;
+  try {
+    await fetch(GSHEET_URL, { method:'POST', body:JSON.stringify(data), headers:{'Content-Type':'text/plain'} });
+    return true;
+  } catch(e) { console.warn('Sheets提交失败:', e); return false; }
+}
+async function fetchFromSheet() {
+  if (!GSHEET_URL) return null;
+  try {
+    const res = await fetch(GSHEET_URL);
+    return await res.json();
+  } catch(e) { console.warn('Sheets读取失败:', e); return null; }
+}
+
 // === 项目卡片数据 ===
 const projects = [
   {tag:'敬老', img:'images/img_8.png', title:'东湖街道 · 敬老服务', desc:'走进东湖养老院，从重阳节同做艾草锤到共制暖心桃酥，用陪伴与关爱为长者们的晚年增添温暖色彩。', ct:['敬老爱老','手工陪伴','节日庆祝'], modal:'donghu'},
@@ -22,21 +69,6 @@ projects.forEach((p, i) => {
   d.innerHTML = `<div class="pj-im"><img src="${p.img}" alt="${p.title}" loading="lazy"><div class="pj-ov"></div><div class="pj-tg">${p.tag}</div></div><div class="pj-bd"><h3>${p.title}</h3><p>${p.desc}</p><div class="pj-ct">${p.ct.map(c => '<span>● ' + c + '</span>').join('')}</div></div>`;
   pg.appendChild(d);
 });
-
-// === Hero 轮播 ===
-let currentSlide = 0;
-const slides = document.querySelectorAll('.hero-slide');
-const dots = document.querySelectorAll('.hero-dot');
-
-function goSlide(n) {
-  slides[currentSlide].classList.remove('active');
-  dots[currentSlide].classList.remove('active');
-  currentSlide = n;
-  slides[currentSlide].classList.add('active');
-  dots[currentSlide].classList.add('active');
-}
-
-setInterval(() => goSlide((currentSlide + 1) % slides.length), 5000);
 
 // === 数字滚动动画 ===
 function animateNumber(el) {
@@ -132,6 +164,7 @@ function submitForm(e) {
 
   records.push(data);
   localStorage.setItem('qxSignup', JSON.stringify(records));
+  postToSheet(data); // 同步到 Google Sheets（非阻塞）
 
   document.getElementById('formView').style.display = 'none';
   document.getElementById('successView').style.display = 'block';
@@ -155,6 +188,21 @@ function toggleAdmin() {
 }
 
 function renderAdmin() {
+  // 先尝试从 Google Sheets 拉取数据
+  fetchFromSheet().then(sheetData => {
+    if (sheetData && Array.isArray(sheetData)) {
+      const local = JSON.parse(localStorage.getItem('qxSignup') || '[]');
+      // 合并：以 Sheet 为主，补充本地独有记录
+      const localIds = new Set(local.map(r => r.studentId + r.time));
+      const merged = [...sheetData];
+      local.forEach(r => { if (!sheetData.some(s => s.studentId === r.studentId && s.time === r.time)) merged.push(r); });
+      localStorage.setItem('qxSignup', JSON.stringify(merged));
+    }
+    renderAdminUI();
+  }).catch(() => renderAdminUI());
+}
+
+function renderAdminUI() {
   const records = JSON.parse(localStorage.getItem('qxSignup') || '[]');
   const body = document.getElementById('adminBody');
 
